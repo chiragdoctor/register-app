@@ -20,3 +20,28 @@ exports.register = async (req, res) => {
 		}
 	}
 };
+
+exports.verifyEmail = async (req, res) => {
+	const { emailToken } = req.params;
+	console.log(emailToken);
+	try {
+		const user = await User.findOne({ emailToken });
+		const isTokenExpired = new Date().getTime() > user.emailTokenExpiresIn;
+		if (isTokenExpired) {
+			return res.status(400).json({
+				error: 'Verification link has expired',
+			});
+		}
+
+		await User.findOneAndUpdate({ _id: user._id }, { $set: { activate: true } });
+		user_activated.hashed_password = undefined;
+		res.send('Your accout has been activated');
+	} catch (err) {
+		console.log('sadfd');
+		if (err) {
+			return res.status(400).json({
+				error: err,
+			});
+		}
+	}
+};

@@ -4,6 +4,6 @@ const { register, verifyEmail } = require('../controllers/auth');
 
 router.post('/register', register);
 
-router.get('/verify', verifyEmail);
+router.get('/verify/:emailToken', verifyEmail);
 
 module.exports = router;

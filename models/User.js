@@ -25,8 +25,8 @@ const userSchema = new Schema(
 			default: randonstring.generate(),
 		},
 		emailTokenExpiresIn: {
-			type: String,
-			default: new Date().setMinutes(new Date().getHours() + 2),
+			type: Number,
+			default: new Date().setMinutes(new Date().getMinutes() + 2),
 		},
 		activate: {
 			type: Boolean,
