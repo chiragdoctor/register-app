@@ -24,12 +24,20 @@ const userSchema = new Schema(
 			type: String,
 			default: randonstring.generate(),
 		},
-		emailTokenExpiresIn: {
+		tokenExpiresIn: {
 			type: Number,
-			default: new Date().setMinutes(new Date().getMinutes() + 2),
+			default: new Date().setHours(new Date().getHours() + 2),
 		},
-		activate: {
+		account_activated: {
 			type: Boolean,
+			default: false,
+		},
+		password_reseted: {
+			type: Boolean,
+			default: false,
+		},
+		passwordResetToken: {
+			type: String,
 			default: false,
 		},
 	},

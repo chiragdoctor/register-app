@@ -13,4 +13,8 @@ router.get('/forgot-password', function (req, res) {
 	res.render('forgot-password');
 });
 
+router.get('/reset-password', function (req, res) {
+	res.render('forgot-password');
+});
+
 module.exports = router;
