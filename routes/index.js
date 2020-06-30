@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const ejs = require('ejs');
-router.get('/register', function (req, res, next) {
+router.get('/register', function (req, res) {
 	res.render('register');
 });
 
-router.get('/signup', function (req, res, next) {
+router.get('/signup', function (req, res) {
 	res.render('signup');
 });
 
-router.get('/verify', function (req, res, next) {
-	const html = ejs.renderFile(__dirname + 'emailVerify.ejs', { name: 'chirag', verifyUrl: 'dsfdf' });
-	res.send(html);
+router.get('/forgot-password', function (req, res) {
+	res.render('forgot-password');
 });
 
 module.exports = router;

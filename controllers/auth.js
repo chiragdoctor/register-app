@@ -39,7 +39,7 @@ exports.verifyEmail = async (req, res) => {
 
 		await User.findOneAndUpdate({ _id: user._id }, { $set: { activate: true } });
 		user_activated.hashed_password = undefined;
-		res.send('Your accout has been activated');
+		res.send('Your account has been activated');
 	} catch (err) {
 		if (err) {
 			return res.status(400).json({
