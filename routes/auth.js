@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const { register, verifyEmail } = require('../controllers/auth');
 
+router.post('/register', register);
 
-router.post('/register', function (req, res, next) {
-	
-});
+router.get('/verify', verifyEmail);
 
 module.exports = router;
