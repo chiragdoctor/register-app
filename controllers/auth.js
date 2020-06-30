@@ -1,5 +1,7 @@
 const ejs = require('ejs');
 const randomstring = require('randomstring');
+const bcrypt = require('bcrypt');
+const config = require('config');
 
 const User = require('../models/User');
 const { emailer } = require('../helper/mailer');
@@ -97,7 +99,7 @@ exports.resetPassword = async (req, res) => {
 		}
 
 		await User.findOneAndUpdate({ _id: user._id }, { $set: { password_reseted: true } });
-		res.render('updatePassword');
+		res.render('changePassword', { email: user.email });
 	} catch (err) {
 		if (err) {
 			return res.status(400).json({
@@ -105,4 +107,19 @@ exports.resetPassword = async (req, res) => {
 			});
 		}
 	}
+};
+
+exports.changePassword = async (req, res) => {
+	const { email, password, pwd_confirm } = req.body;
+	if (password !== pwd_confirm) {
+		return res.status(400).json({
+			error: 'Password does not match',
+		});
+	}
+	try {
+		const salt = await bcrypt.genSalt(config.get('salt_rounds'));
+		const hashed_password = new User().encryptPassword(password, salt);
+		await User.findOneAndUpdate({ email }, { $set: { hashed_password } });
+		res.send('<h1>Password Updated</h1>');
+	} catch (err) {}
 };
