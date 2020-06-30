@@ -23,9 +23,13 @@ exports.register = async (req, res) => {
 
 exports.verifyEmail = async (req, res) => {
 	const { emailToken } = req.params;
-	console.log(emailToken);
 	try {
 		const user = await User.findOne({ emailToken });
+		if (!user) {
+			return res.status(400).json({
+				error: 'You are not registered user.',
+			});
+		}
 		const isTokenExpired = new Date().getTime() > user.emailTokenExpiresIn;
 		if (isTokenExpired) {
 			return res.status(400).json({
@@ -37,7 +41,6 @@ exports.verifyEmail = async (req, res) => {
 		user_activated.hashed_password = undefined;
 		res.send('Your accout has been activated');
 	} catch (err) {
-		console.log('sadfd');
 		if (err) {
 			return res.status(400).json({
 				error: err,
